@@ -4,6 +4,7 @@ import sys
 start = True
 chance = 0
 x = []
+conditions_met = False
 
 # is user ready ?
 READY = raw_input('Ready ?(Y/N), E for exit: ')
@@ -30,8 +31,15 @@ def main():
 
 def design_emulator():
 	global start
+	global chance
+
+    # check if user want to be X or 0 at first
 	if(start):
 		fill_blanks()
+		x_or_zero_first = raw_input("Choose to put X or 0 ?? : ")
+		if(x_or_zero_first is '0'):
+			chance = 1
+
 
 	show_design()
 
@@ -47,80 +55,150 @@ def show_design():
 
 def chance_emulator():
 	global chance
+	global conditions_met
+
 	while(chance != 2 ):
 		print " "
 		print " "
 		print " "
 		design_emulator()
-		if(chance == 0):
+		# if chance is 0 {X's chance}
+		if (chance == 0):
 			print " "
 			print " "
 			print " "
 			print "X's chance now !"
 			block = int(raw_input('select block: '))
 			block = block - 1;
-			fill_values(block,chance)
-			conditions_met = user_won(chance)
-			if(conditions_met == True):
-				print " "
-				print " "
-				print " "
-				print "----------------------"
-				print "      WINNER"
-				print "----------------------"
-				print " "
-				print " "
-				print " "
-				design_emulator()
-				print " "
-				print " "
-				print " "
-				print "----------------------"
-				print "|"
-				print "|"
-				print "|"
-				print "|"
-				print "|"
-				print "v"
-				print "X has WON !!!!!!!!"
-				chance = 2
+			valid = check_validity(block,chance)
+			if (valid == True):
+				fill_values(block,chance)
+				conditions_met = user_won(chance)
+
+				if(conditions_met == True):
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "      WINNER"
+					print "----------------------"
+					print " "
+					print " "
+					print " "
+					design_emulator()
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "v"
+					print "X has WON !!!!!!!!"
+					chance = 2
+				else:
+					chance = 1
+
+				if all([conditions_met == False , all_blocks_filled() == True]):
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "      DRAW GAME"
+					print "----------------------"
+					print " "
+					print " "
+					print " "
+					design_emulator()
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "v"
+					print "Its a draw !!!!!!!!"
+					chance = 2
 			else:
-				chance = 1
-		else:
+				print " "
+				print " "
+				print "---------------------"
+				print "BLOCK ALREADY FILLED"
+				print "---------------------"
+		# if chance is 1 {0's chance}
+		elif (chance == 1):
 			print " "
 			print " "
 			print " "
 			print "0's chance now !"
 			block = int(raw_input('select block: '))
 			block = block - 1;
-			fill_values(block,chance)
-			conditions_met = user_won(chance)
+			valid = check_validity(block,chance)
+			if (valid == True):
+				fill_values(block,chance)
+				conditions_met = user_won(chance)
 
-			if(conditions_met == True):
-				print " "
-				print " "
-				print " "
-				print "----------------------"
-				print "      WINNER"
-				print "----------------------"
-				print " "
-				print " "
-				print " "
-				design_emulator()
-				print " "
-				print " "
-				print " "
-				print "----------------------"
-				print "|"
-				print "|"
-				print "|"
-				print "|"
-				print "|"
-				print "v"
-				print "0 has WON !!!!!!!!"
-				chance = 2
+				if(conditions_met == True):
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "      WINNER"
+					print "----------------------"
+					print " "
+					print " "
+					print " "
+					design_emulator()
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "v"
+					print "0 has WON !!!!!!!!"
+					chance = 2
+				else:
+					chance = 0
+
+				if all([conditions_met == False , all_blocks_filled() == True]):
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "      DRAW GAME"
+					print "----------------------"
+					print " "
+					print " "
+					print " "
+					design_emulator()
+					print " "
+					print " "
+					print " "
+					print "----------------------"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "|"
+					print "v"
+					print "Its a draw !!!!!!!!"
+					chance = 2
 			else:
-				chance = 0
+				print " "
+				print " "
+				print "---------------------"
+				print "BLOCK ALREADY FILLED"
+				print "---------------------"
+
 
 # check horizontal/vertical/cross
 def user_won(c):
@@ -168,6 +246,36 @@ def user_won(c):
 			return True
 		else:
 			return False
+
+# check if all blocks filled
+def all_blocks_filled():
+	global x
+	drum = []
+	for z in range(9):
+		if(x[z] != ' '):
+			drum.append('a')
+		else:
+			drum.append(' ')
+
+	for g in range(9):
+		if(drum[g] is 'a'):
+			return False
+		else:
+			return True
+
+# check if user entered block is already filled and the value is valid
+def check_validity(block,c):
+	global x
+	if(c == 0):
+		if any([ x[block] is "X", x[block] is "0"]):
+			return False
+		else:
+			return True
+	elif(c ==1):
+		if any([x[block] is "0", x[block] is "X"]):
+			return False
+		else:
+			return True
 
 
 
