@@ -1,5 +1,5 @@
 # Lesson 2 - types of variables
-# DO python L2.py and compare output and code
+# DO python L2.py and compare output with code
 
 # use buit-in type function to know variable types
 
