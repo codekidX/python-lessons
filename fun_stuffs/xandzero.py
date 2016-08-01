@@ -1,5 +1,6 @@
 ## Fun Stuff 1
 import sys
+import os
 
 start = True
 chance = 0
@@ -58,12 +59,14 @@ def chance_emulator():
 	global conditions_met
 
 	while(chance != 2 ):
-		print " "
-		print " "
-		print " "
-		design_emulator()
 		# if chance is 0 {X's chance}
 		if (chance == 0):
+			os.system('cls')
+			os.system('clear')
+			print " "
+			print " "
+			print " "
+			design_emulator()
 			print " "
 			print " "
 			print " "
@@ -76,6 +79,8 @@ def chance_emulator():
 				conditions_met = user_won(chance)
 
 				if(conditions_met == True):
+					os.system('cls')
+					os.system('clear')
 					print " "
 					print " "
 					print " "
@@ -102,6 +107,8 @@ def chance_emulator():
 					chance = 1
 
 				if all([conditions_met == False , all_blocks_filled() == True]):
+					os.system('cls')
+					os.system('clear')
 					print " "
 					print " "
 					print " "
@@ -132,6 +139,12 @@ def chance_emulator():
 				print "---------------------"
 		# if chance is 1 {0's chance}
 		elif (chance == 1):
+			os.system('cls')
+			os.system('clear')
+			print " "
+			print " "
+			print " "
+			design_emulator()
 			print " "
 			print " "
 			print " "
@@ -144,6 +157,8 @@ def chance_emulator():
 				conditions_met = user_won(chance)
 
 				if(conditions_met == True):
+					os.system('cls')
+					os.system('clear')
 					print " "
 					print " "
 					print " "
@@ -170,6 +185,8 @@ def chance_emulator():
 					chance = 0
 
 				if all([conditions_met == False , all_blocks_filled() == True]):
+					os.system('cls')
+					os.system('clear')
 					print " "
 					print " "
 					print " "
